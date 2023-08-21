@@ -63,6 +63,7 @@ def del_data (file):
     with open(file, mode='r', encoding='UTF-8') as f:
         data = json.load(f)
         poisk = input('Введите id записи для удаления: ')
+        minimal = 0
         vvod_param = int (input('Подтвердите удаление записи: \n1 - Подтвердить \n2 - Отменить \n'))
         if vvod_param == 1:
             for item in data["notes"]:
@@ -72,8 +73,9 @@ def del_data (file):
                     # del item["body"]
                     # del item["noteData"]
                     # del item["noteTime"]
-                    del item
+                    data["notes"].pop(minimal)
                     print (data)
+                minimal+=1
             with open(file, mode='w', encoding= 'UTF-8') as f:
                 json.dump(data, f, ensure_ascii= False, indent=2)
                 print (f'Удалена заметка с id = {poisk}')
