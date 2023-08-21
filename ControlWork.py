@@ -60,25 +60,24 @@ def search_note(file):
     return True
 
 def del_data (file):
-    with open(file, 'r', encoding='UTF-8') as f:
-        json_data = json.load(f)
-        vvod_id = int (input('Введите id записи для удаления: '))
-        for item in json_data["notes"]:
-            # print(item["id"])
-            if vvod_id == int(item["id"]):
-                print (f'Выбрана запись для удаления: \n {item["id"]}; {item["header"]:>8}; {item["body"]:>15}; {item["noteData"]}')
-                vvod_param = int (input('Подтвердите удаление записи: \n1 - Подтвердить \n2 - Отменить \n'))
-                if vvod_param == 1:
-                    del item;
-                    print (item["id"])
-        f.close()
-    # with open(file, 'w', encoding='UTF-8') as f:
-    #     poisk = input('Введите данные заметки для удаления: ')
-    #     for line in lines:
-    #         if poisk not in line:
-    #             f.write(line)
-    #     f.close()
-    print("Заметка успешно удалена")
+    with open(file, mode='r', encoding='UTF-8') as f:
+        data = json.load(f)
+        poisk = input('Введите id записи для удаления: ')
+        vvod_param = int (input('Подтвердите удаление записи: \n1 - Подтвердить \n2 - Отменить \n'))
+        if vvod_param == 1:
+            for item in data["notes"]:
+                if (str(item ["id"])==(poisk)):
+                    print(f'Выбрана запись для удаления: \n {item["id"]}; {item["header"]:>8}; {item["body"]:>15}; {item["noteData"]}; {item["noteTime"]}')
+                    # del item["header"]
+                    # del item["body"]
+                    # del item["noteData"]
+                    # del item["noteTime"]
+                    del item
+                    print (data)
+            with open(file, mode='w', encoding= 'UTF-8') as f:
+                json.dump(data, f, ensure_ascii= False, indent=2)
+                print (f'Удалена заметка с id = {poisk}')
+    f.close()
     return True
 
 def edit_data (file):
